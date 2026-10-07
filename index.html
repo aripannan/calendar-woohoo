@@ -753,6 +753,20 @@ html.phone-mode #phoneApp{display:block;max-width:560px;margin:0 auto;padding:ma
 .dv-chips{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 12px}
 .dv-chips button{border:1px solid var(--line);background:var(--paper)!important;color:var(--ink)!important;border-radius:12px;padding:6px 10px;font-size:12px;font-weight:600}
 .dv-chips button.on{background:var(--green)!important;color:#fff!important;border-color:var(--green)}
+.mp-pop{position:fixed;z-index:99999;background:var(--paper,#fff);color:var(--ink,#222);border:1px solid var(--line,#ddd);border-radius:14px;box-shadow:0 10px 30px #0004;padding:12px;width:270px;font:13px system-ui,sans-serif}
+.mp-t{font-size:12px;color:var(--muted,#666);margin-bottom:9px;line-height:1.35;overflow-wrap:anywhere}
+.mp-b{display:block;text-align:center;text-decoration:none;font-weight:700;padding:11px;margin-bottom:7px;border-radius:11px;border:1px solid var(--line,#ddd);background:#fff;color:#222}
+.mp-b[data-app=google]{background:var(--green,#3855ae);border-color:var(--green,#3855ae);color:#fff}
+.mp-r{display:flex;gap:7px;align-items:center;font-size:12px;margin:4px 2px 8px;color:var(--muted,#666)}
+.mp-x{width:100%;border:0;background:none;color:var(--muted,#666);font-size:13px;padding:6px}
+.mp-sheet{left:0!important;right:0;bottom:0;top:auto!important;width:auto;border-radius:20px 20px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom));font-size:15px}
+.mp-sheet .mp-b{padding:14px;font-size:15px}
+.block{min-height:var(--h,0)}
+.block .blk-loc{display:block;font-size:10px;font-weight:600;line-height:1.3;margin-top:4px;overflow-wrap:anywhere;color:#2c3a30}
+.block .blk-loc a{color:inherit;font-size:inherit;font-weight:inherit;margin:0;text-decoration:underline dotted;text-underline-offset:2px}
+.block small.blk-code{margin-top:2px}
+.block:hover,.block:focus-within{overflow:visible;height:auto!important;z-index:6;box-shadow:0 8px 22px #0003;background:color-mix(in srgb,var(--course) 14%,#fff)!important}
+
 #bkModal .shf{margin-bottom:10px}
 </style><script>(function(){
 const DN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -762,14 +776,76 @@ const S=()=>{try{return JSON.parse(localStorage.getItem('plannerSettings')||'{}'
 const D=()=>{try{return data}catch{return{}}};
 const cn=id=>(D().courses||[]).find(c=>c.id===id)||{};
 const list=k=>D()[{a:'assignments',r:'reminders',t:'dailyTasks',e:'events'}[k]]||[];
-function mapsUrl(loc){loc=String(loc||'').trim();if(!loc)return'';if(/^https?:\/\//i.test(loc))return loc;
+const UI_AREA='University of Illinois Urbana-Champaign, IL',UI_NEAR='40.1020,-88.2272';
+const UI_BLD=[
+['Altgeld Hall','1409 W Green St, Urbana, IL 61801',['altgeld']],
+['Animal Sciences Laboratory','1207 W Gregory Dr, Urbana, IL 61801',['animal sciences','ansc']],
+['Armory','505 E Armory Ave, Champaign, IL 61820',['armory']],
+['Activities and Recreation Center (ARC)','201 E Peabody Dr, Champaign, IL 61820',['activities and recreation','arc']],
+['Beckman Institute','405 N Mathews Ave, Urbana, IL 61801',['beckman']],
+['Bevier Hall','905 S Goodwin Ave, Urbana, IL 61801',['bevier']],
+['Business Instructional Facility (BIF)','515 E Gregory Dr, Champaign, IL 61820',['business instructional','bif']],
+['Burrill Hall','407 S Goodwin Ave, Urbana, IL 61801',['burrill']],
+['Chemistry Annex','505 S Mathews Ave, Urbana, IL 61801',['chemistry annex']],
+['Coble Hall','801 S Wright St, Champaign, IL 61820',['coble']],
+['Davenport Hall','607 S Mathews Ave, Urbana, IL 61801',['davenport']],
+['David Kinley Hall','1407 W Gregory Dr, Urbana, IL 61801',['david kinley','kinley']],
+['Digital Computer Laboratory (DCL)','1304 W Springfield Ave, Urbana, IL 61801',['digital computer','dcl']],
+['Education Building','1310 S 6th St, Champaign, IL 61820',['education building']],
+['Electrical and Computer Engineering Building (ECEB)','306 N Wright St, Urbana, IL 61801',['eceb','electrical and computer engineering']],
+['English Building','608 S Wright St, Urbana, IL 61801',['english building']],
+['Everitt Laboratory','1406 W Green St, Urbana, IL 61801',['everitt']],
+['Foellinger Auditorium','709 S Wright St, Urbana, IL 61801',['foellinger']],
+['Foreign Languages Building','707 S Mathews Ave, Urbana, IL 61801',['foreign languages','flb']],
+['Literatures, Cultures, and Linguistics Building','707 S Mathews Ave, Urbana, IL 61801',['literatures, cultures','literatures cultures','lcll','lcl ']],
+['Gregory Hall','810 S Wright St, Urbana, IL 61801',['gregory hall']],
+['Grainger Engineering Library','1301 W Springfield Ave, Urbana, IL 61801',['grainger']],
+['Henry Administration Building','506 S Wright St, Urbana, IL 61801',['henry administration']],
+['Huff Hall','1206 S 4th St, Champaign, IL 61820',['huff hall']],
+['Illini Union','1401 W Green St, Urbana, IL 61801',['illini union','the union']],
+['Kenney Gym','1301 S Fourth St, Champaign, IL 61820',['kenney']],
+['Krannert Center for the Performing Arts','500 S Goodwin Ave, Urbana, IL 61801',['krannert']],
+['Law Building','504 E Pennsylvania Ave, Champaign, IL 61820',['law building']],
+['Lincoln Hall','702 S Wright St, Urbana, IL 61801',['lincoln hall']],
+['Loomis Laboratory of Physics','1110 W Green St, Urbana, IL 61801',['loomis']],
+['Main Library','1408 W Gregory Dr, Urbana, IL 61801',['main library','undergraduate library','ugl']],
+['Materials Science and Engineering Building','1304 W Green St, Urbana, IL 61801',['materials science','mse building']],
+['Mechanical Engineering Laboratory','1206 W Green St, Urbana, IL 61801',['mechanical engineering lab','mel']],
+['Mumford Hall','1301 W Gregory Dr, Urbana, IL 61801',['mumford']],
+['Natural History Building','1301 W Green St, Urbana, IL 61801',['natural history']],
+['Noyes Laboratory','505 S Mathews Ave, Urbana, IL 61801',['noyes']],
+['Psychology Building','603 E Daniel St, Champaign, IL 61820',['psychology building']],
+['Roger Adams Laboratory','600 S Mathews Ave, Urbana, IL 61801',['roger adams']],
+['Siebel Center for Computer Science','201 N Goodwin Ave, Urbana, IL 61801',['siebel center for computer','siebel cs','siebel']],
+['Siebel Center for Design','1209 S 4th St, Champaign, IL 61820',['center for design','siebel design']],
+['Smith Memorial Hall','805 S Mathews Ave, Urbana, IL 61801',['smith memorial','smith music']],
+['Spurlock Museum','600 S Gregory St, Urbana, IL 61801',['spurlock']],
+['Talbot Laboratory','104 S Wright St, Urbana, IL 61801',['talbot']],
+['Transportation Building','104 S Mathews Ave, Urbana, IL 61801',['transportation building']],
+['Wohlers Hall','1206 S 6th St, Champaign, IL 61820',['wohlers']]
+];
+const UI_NORM=s=>' '+String(s).toLowerCase().replace(/[^a-z0-9, ]+/g,' ').replace(/\s+/g,' ')+' ';
+function uiuc(q){const n=UI_NORM(q);let best=null,len=0;UI_BLD.forEach(b=>b[2].forEach(a=>{const k=UI_NORM(a).trimEnd();if(k.length>len&&n.includes(k.startsWith(' ')?k:' '+k.trimStart())&&(k.trim().length>3||n.includes(' '+k.trim()+' '))){best=b;len=k.length}}));return best}
+function mapsQuery(loc){loc=String(loc||'').trim();if(!loc)return'';
 if(/^(zoom|online|remote|virtual|tbd|tba|n\/a|none|canvas|teams|meet|webex|async)/i.test(loc))return'';
-const st=S();let q=loc.split('·')[0].split(/\s[-–|]\s/)[0].trim()||loc,area=(st.area||'').trim();
-if(!area){try{area=((D().profile||{}).calendarDisplay||{}).location||'Urbana-Champaign'}catch{area=''}}
-if(area&&!q.includes(','))q+=', '+area;
-let app=st.maps||'auto';if(app==='auto')app=/iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent)?'apple':'google';
-return app==='apple'?'https://maps.apple.com/?q='+encodeURIComponent(q):'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q)}
-window.mapA=loc=>{const u=mapsUrl(loc);return u?'<a class="maplink" href="'+E(u)+'" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">'+E(loc)+'</a>':E(loc)};
+const q=loc.split('·')[0].split(/\s[-–|]\s/)[0].trim()||loc,b=uiuc(q);
+if(b)return b[0]+', '+b[1];
+if(/\d/.test(q)&&q.includes(','))return q;
+let area=(S().area||'').trim()||UI_AREA;return q.includes(',')?q:q+', '+area}
+function mapUrlFor(loc,app){const q=mapsQuery(loc);if(!q)return'';
+return app==='apple'?'https://maps.apple.com/?q='+encodeURIComponent(q)+'&near='+UI_NEAR:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q)}
+function mapsUrl(loc){if(/^https?:\/\//i.test(String(loc||'').trim()))return String(loc).trim();const m=S().maps;return mapUrlFor(loc,m==='apple'?'apple':'google')}
+window.mapA=loc=>{const u=mapsUrl(loc);return u?'<a class="maplink" href="'+E(u)+'" data-maploc="'+E(loc)+'" target="_blank" rel="noopener noreferrer">'+E(loc)+'</a>':E(loc)};
+let mapPop=null;function closeMapPop(){if(mapPop){mapPop.remove();mapPop=null}}
+function openMapPop(a,loc){closeMapPop();const g=mapUrlFor(loc,'google'),ap=mapUrlFor(loc,'apple');if(!g)return;
+const p=document.createElement('div');p.className='mp-pop';p.innerHTML='<div class="mp-t">📍 '+E(mapsQuery(loc))+'</div><a class="mp-b" data-app="apple" href="'+E(ap)+'" target="_blank" rel="noopener noreferrer">Open in Apple Maps</a><a class="mp-b" data-app="google" href="'+E(g)+'" target="_blank" rel="noopener noreferrer">Open in Google Maps</a><label class="mp-r"><input type="checkbox"> Remember my choice</label><button type="button" class="mp-x">Cancel</button>';
+document.body.appendChild(p);mapPop=p;
+if(innerWidth>700){const r=a.getBoundingClientRect(),w=p.offsetWidth,h=p.offsetHeight;p.style.left=Math.max(8,Math.min(r.left,innerWidth-w-8))+'px';let t=r.bottom+6;if(t+h>innerHeight-8)t=Math.max(8,r.top-h-6);p.style.top=t+'px'}else p.classList.add('mp-sheet');
+p.onclick=e=>{e.stopPropagation();const b=e.target.closest('.mp-b');if(b){if(p.querySelector('input').checked){try{const s=S();s.maps=b.dataset.app;localStorage.setItem('plannerSettings',JSON.stringify(s))}catch{}}setTimeout(closeMapPop,60)}else if(e.target.closest('.mp-x'))closeMapPop()}}
+document.addEventListener('click',e=>{const a=e.target.closest&&e.target.closest('a[data-maploc]');
+if(a){if(e.metaKey||e.ctrlKey||e.shiftKey)return;const m=S().maps;e.stopPropagation();if(m==='apple'||m==='google'){a.href=mapUrlFor(a.dataset.maploc,m);return}e.preventDefault();openMapPop(a,a.dataset.maploc);return}
+if(mapPop&&!e.target.closest('.mp-pop'))closeMapPop()},true);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMapPop()});
 function items(ds){const d=new Date(ds+'T12:00'),out=[];[...(D().courses||[]).map(c=>({...c,t:c.name,k:'c'})),...list('e').map(c=>({...c,t:c.title||c.name,k:'e'}))].forEach(c=>{if(!c.start)return;const on=c.date?c.date===ds:(c.days||[]).includes(DN[d.getDay()])&&(!c.first||ds>=c.first)&&(!c.last||ds<=c.last);if(on)out.push(c)});return out.sort((a,b)=>a.start.localeCompare(b.start))}
 function itemsOn(ds){const due=[...list('a').filter(a=>a.due===ds).map(x=>({k:'a',x})),...list('r').filter(r=>r.due===ds).map(x=>({k:'r',x}))].sort((p,q)=>(p.x.dueTime||'99').localeCompare(q.x.dueTime||'99'));return[...items(ds).map(x=>({k:x.k,x})),...due,...list('t').filter(t=>t.date===ds).map(x=>({k:'t',x}))]}
 function card(k,x,o){o=o||{};const done=k==='t'?!!x.done:x.status==='Done',c=cn(x.courseId),col=(k==='a'?(x.color||c.color):x.color)||'#3855ae',typ={c:'Class',e:'Event',a:'Assignment',r:'Reminder',t:'Task'}[k];
@@ -1428,7 +1504,7 @@ function icsEscape(value){return String(value||'').replace(/\\/g,'\\\\').replace
 function chicagoUTC(date,time){let [y,m,d]=date.split('-').map(Number),[h,mi]=time.split(':').map(Number),target=Date.UTC(y,m-1,d,h,mi),guess=target;for(let i=0;i<3;i++){let parts=new Intl.DateTimeFormat('en-US',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(guess)).reduce((a,p)=>(a[p.type]=p.value,a),{}),shown=Date.UTC(+parts.year,+parts.month-1,+parts.day,+parts.hour,+parts.minute);guess+=target-shown}return new Date(guess)}
 function icsStamp(date,time){let d=chicagoUTC(date,time);return `${d.getUTCFullYear()}${String(d.getUTCMonth()+1).padStart(2,'0')}${String(d.getUTCDate()).padStart(2,'0')}T${String(d.getUTCHours()).padStart(2,'0')}${String(d.getUTCMinutes()).padStart(2,'0')}00Z`}
 function downloadGoogleCalendar(){let lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Semester Planner//Google Calendar Export//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH'];const addEvent=(uid,title,date,start,end,description,location,url,allDay=false)=>{lines.push('BEGIN:VEVENT',`UID:${uid}@semester-planner.local`,`DTSTAMP:${new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'')}`);if(allDay){let next=dateLocal(date);next.setDate(next.getDate()+1);lines.push(`DTSTART;VALUE=DATE:${date.replace(/-/g,'')}`,`DTEND;VALUE=DATE:${iso(next).replace(/-/g,'')}`)}else{lines.push(`DTSTART:${icsStamp(date,start)}`);if(end)lines.push(`DTEND:${icsStamp(date,end)}`)}lines.push(`SUMMARY:${icsEscape(title)}`);if(description)lines.push(`DESCRIPTION:${icsEscape(description)}`);if(location)lines.push(`LOCATION:${icsEscape(location)}`);if(url&&safeLink(url))lines.push(`URL:${safeLink(url)}`);lines.push('END:VEVENT')};let meetingCount=0;for(const item of allMeetings()){if(!item.first||!item.last)continue;let day=dateLocal(item.first),last=dateLocal(item.last);for(;day<=last;day.setDate(day.getDate()+1)){if(!activeOn(item,day))continue;let date=iso(day),title=item.kind==='course'?`${item.code}: ${item.name}`:item.name,description=[item.kind==='course'?'Class meeting':'Calendar event',item.instructor?'Instructor: '+item.instructor:'',item.code||''].filter(Boolean).join('\n');addEvent(`${item.id}-${date}`,title,date,item.start,item.end,description,item.location,item.link);meetingCount++}}let taskCount=0;for(const task of (data.dailyTasks||[]).filter(t=>!t.done)){addEvent(`daily-${task.id}`,`Today: ${task.title}`,task.date||iso(new Date()),'',null,'Daily checklist task','','',true);taskCount++}for(const kind of ['assignment','reminder']){let items=kind==='assignment'?data.assignments:data.reminders;for(const item of items){if(!item.due||item.status==='Done')continue;let course=data.courses.find(c=>c.id===item.courseId),title=`${kind==='assignment'?'Assignment due':'Reminder'}: ${item.title}`,description=[course?course.code:'',item.notes||'',item.link||''].filter(Boolean).join('\n');addEvent(`${kind}-${item.id}`,title,item.due,item.dueTime||'',null,description,'',item.link,!item.dueTime);taskCount++}}lines.push('END:VCALENDAR');let blob=new Blob([lines.join('\r\n')+'\r\n'],{type:'text/calendar;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='semester-planner-google-calendar.ics';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);toast(`Calendar export ready · ${meetingCount} class/event meetings and ${taskCount} deadlines`)}
-function renderSchedule(){let wd=weekDays(),start=7*60,end=22*60,scale=900/(end-start);let header=`<div class="timehead"></div>${wd.map(d=>`<div class="dayhead">${fmtDate(d,{weekday:'long'})}<small>${fmtDate(d,{month:'short',day:'numeric'})}</small></div>`).join('')}`;let times='';for(let m=start;m<end;m+=60)times+=`<div class="time-label">${fmtTime(`${String(Math.floor(m/60)).padStart(2,'0')}:00`)}</div>`;let cols=wd.map(d=>`<div class="daycol">${allMeetings().filter(c=>activeOn(c,d)).map(c=>{let top=(mins(c.start)-start)*scale,height=Math.max(42,(mins(c.end)-mins(c.start))*scale);return `<div class="block" style="top:${top}px;height:${height}px;--course:${c.color};--tint:${c.tint}" onclick="${c.kind==='event'?`openEvent(\'${c.id}\')`:`openCourse(\'${c.id}\')`}"><strong>${esc(c.name)}</strong><small>${fmtTime(c.start)}–${fmtTime(c.end)}<br>${esc(c.code)} · ${mapA(c.location||'')}</small>${safeLink(c.link)?`<a class="btn secondary sm" style="display:inline-block;margin-top:4px;text-decoration:none" href="${esc(safeLink(c.link))}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Open link ↗</a>`:''}</div>`}).join('')}</div>`).join('');document.getElementById('weekGrid').innerHTML=`<div class="weektable">${header}<div class="timecol">${times}</div>${cols}</div>`;document.getElementById('weekLabel').textContent=`${fmtDate(wd[0],{month:'long',day:'numeric'})} – ${fmtDate(wd[wd.length-1],{month:'long',day:'numeric',year:'numeric'})}`;renderClassColorLegend()}
+function renderSchedule(){let wd=weekDays(),start=7*60,end=22*60,scale=900/(end-start);let header=`<div class="timehead"></div>${wd.map(d=>`<div class="dayhead">${fmtDate(d,{weekday:'long'})}<small>${fmtDate(d,{month:'short',day:'numeric'})}</small></div>`).join('')}`;let times='';for(let m=start;m<end;m+=60)times+=`<div class="time-label">${fmtTime(`${String(Math.floor(m/60)).padStart(2,'0')}:00`)}</div>`;let cols=wd.map(d=>`<div class="daycol">${allMeetings().filter(c=>activeOn(c,d)).map(c=>{let top=(mins(c.start)-start)*scale,height=Math.max(64,(mins(c.end)-mins(c.start))*scale);return `<div class="block" style="top:${top}px;height:${height}px;--h:${height}px;--course:${c.color};--tint:${c.tint}" onclick="${c.kind==='event'?`openEvent(\'${c.id}\')`:`openCourse(\'${c.id}\')`}"><strong>${esc(c.name)}</strong><small>${fmtTime(c.start)}–${fmtTime(c.end)}</small>${c.location?`<span class="blk-loc">📍 ${mapA(c.location)}</span>`:''}<small class="blk-code">${esc(c.code)}</small>${safeLink(c.link)?`<a class="btn secondary sm" style="display:inline-block;margin-top:4px;text-decoration:none" href="${esc(safeLink(c.link))}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Open link ↗</a>`:''}</div>`}).join('')}</div>`).join('');document.getElementById('weekGrid').innerHTML=`<div class="weektable">${header}<div class="timecol">${times}</div>${cols}</div>`;document.getElementById('weekLabel').textContent=`${fmtDate(wd[0],{month:'long',day:'numeric'})} – ${fmtDate(wd[wd.length-1],{month:'long',day:'numeric',year:'numeric'})}`;renderClassColorLegend()}
 function renderCourses(){renderClassColorLegend();document.getElementById('courseList').innerHTML=data.courses.map(c=>`<article class="course-card" style="--course:${c.color}"><div class="course-stripe"></div><div><h3>${esc(c.name)}</h3><p>${esc(c.code)}</p><div class="meta">${c.days.join(', ')} · ${courseTime(c)}<br>${mapA(c.location)}${safeLink(c.link)?`<br><a class="btn secondary sm" style="display:inline-block;margin-top:7px;text-decoration:none" href="${esc(safeLink(c.link))}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Open course link ↗</a>`:''}</div></div><button class="icon-btn" aria-label="Edit course" onclick="openCourse('${c.id}')">✎</button></article>`).join('')||'<div class="empty">No courses yet. Add a course to start your schedule.</div>'}
 function refreshFilters(){let sel=document.getElementById('assignmentFilter'),v=sel.value;sel.innerHTML='<option value="all">All courses</option>'+data.courses.map(c=>`<option value="${c.id}">${esc(c.code)} — ${esc(c.name)}</option>`).join('');if([...sel.options].some(o=>o.value===v))sel.value=v}
 function taskHTML(a,actions=true){let reminder=a.kind==='reminder',c=data.courses.find(x=>x.id===a.courseId),ownLink=safeLink(a.link),link=ownLink||(!reminder?safeLink(c?.link):''),linkLabel=ownLink?'Open task link':'Open course link',category=reminder?(a.category||'Personal'):(c?.code||'Assignment'),tone=colorValue(a.color,c?.color||'#df7895'),tint=a.tint||tintFor(tone),due=a.due?fmtDate(dateLocal(a.due),{month:'short',day:'numeric',year:'numeric'})+(a.dueTime?' at '+fmtTime(a.dueTime):''):'No due date',overdue=a.due&&a.due<iso(new Date())&&a.status!=='Done',draft=emailDraftURL(a);return `<article class="assignment-row" style="--item-color:${tone};--course:${tone};--tint:${tint}"><div><strong>${link?`<a href="${esc(link)}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none">${esc(a.title)} ↗</a>`:esc(a.title)}</strong><small>${esc(category)}${a.due?' · '+(overdue?'Overdue · ':'Due ')+due:' · No due date'}${a.notes?' · '+esc(a.notes):''}${Number(a.reminderLead)>0?' · Reminder '+esc(({5:'5 min',15:'15 min',30:'30 min',60:'1 hr',1440:'1 day',4320:'3 days',10080:'1 week'})[Number(a.reminderLead)]||a.reminderLead+' min')+' before':''}</small></div><div class="row-actions">${link?`<a class="btn secondary sm" style="text-decoration:none" href="${esc(link)}" target="_blank" rel="noopener noreferrer">${linkLabel} ↗</a>`:''}${draft?`<a class="btn secondary sm" style="text-decoration:none" href="${esc(draft)}" title="Opens an email draft; you choose whether to send">Email draft</a>`:''}${actions&&!reminder&&a.status!=='Done'?`<button class="btn secondary sm" onclick="completeAssignment('${a.id}')">✓ Done</button>`:''}<span class="pill" style="--course:${tone};--tint:${tint}">${esc(a.status||'To do')}</span>${actions?`<button class="icon-btn" onclick="${reminder?`openReminder('${a.id}')`:`openAssignment('${a.id}')`}">✎</button>`:''}</div></article>`}
@@ -3271,7 +3347,11 @@ if(b.id==='thisWeek')bd=PL.iso(new Date());else{const d=new Date(bd+'T12:00');d.
 box.onclick=e=>{const c=e.target.closest('.ph-chk');if(c){PL.toggle(c.dataset.k,c.dataset.id);try{render()}catch{}draw();return}const d=e.target.closest('[data-d]');if(d){bd=d.dataset.d;draw()}};
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>setTimeout(()=>{if(mode!=='grid')draw()},0)));PL.hooks.push(()=>{if(mode!=='grid')draw()})}
 const bm=document.querySelector('#bkModal .modal');if(bm){const st=()=>{try{return JSON.parse(localStorage.getItem('plannerSettings')||'{}')}catch{return{}}},cur=st(),w=document.createElement('div');
-w.innerHTML='<div class="shf"><label>Maps app for locations</label><select id="stMaps"><option value="auto">Automatic (Apple Maps on iPhone/Mac, else Google)</option><option value="google">Google Maps</option><option value="apple">Apple Maps</option></select></div><div class="shf"><label>Map search area (optional)</label><input id="stArea" placeholder="e.g. Urbana-Champaign"></div><p class="subtle" style="margin:0 0 6px">Backup: copy your data to move it to another device.</p>';
-bm.querySelector('h2').after(w);const sm=w.querySelector('#stMaps'),sa=w.querySelector('#stArea');sm.value=cur.maps||'auto';sa.value=cur.area||'';
+w.innerHTML='<div class="shf"><label>Maps app for locations</label><select id="stMaps"><option value="ask">Ask me each time</option><option value="google">Google Maps</option><option value="apple">Apple Maps</option></select></div><div class="shf"><label>Map search area (optional)</label><input id="stArea" placeholder="e.g. Urbana-Champaign"></div><p class="subtle" style="margin:0 0 6px">Backup: copy your data to move it to another device.</p>';
+bm.querySelector('h2').after(w);const sm=w.querySelector('#stMaps'),sa=w.querySelector('#stArea');sm.value=(cur.maps==='apple'||cur.maps==='google')?cur.maps:'ask';sa.value=cur.area||'';
 const sv=()=>{try{localStorage.setItem('plannerSettings',JSON.stringify({maps:sm.value,area:sa.value.trim()}))}catch{}try{render()}catch{}PL.hooks.forEach(f=>f())};sm.onchange=sv;sa.onchange=sv}
-}catch(err){console.error('detail view',err)}})();</script></body></html>
+}catch(err){console.error('detail view',err)}})();</script><script>(()=>{try{
+if(location.protocol==='http:'||location.protocol==='https:'){
+if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(()=>{})}
+if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}}
+}catch(e){}})();</script></body></html>
