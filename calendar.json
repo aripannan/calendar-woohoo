@@ -1,0 +1,242 @@
+{
+ "v": 1,
+ "title": "Shared calendar",
+ "updatedAt": 1791416659964,
+ "data": {
+  "courses": [
+   {
+    "id": "las101",
+    "name": "Design First Year Experience",
+    "code": "LAS 101 · 18",
+    "days": [
+     "Thu"
+    ],
+    "start": "12:30",
+    "end": "13:50",
+    "location": "Literatures, Cultures, & Ling · G30",
+    "instructor": "Akshata Gajula; Jordan Kuneyl; Tanya Willard",
+    "first": "2026-08-27",
+    "last": "2026-10-15",
+    "color": "#8c5b3e",
+    "tint": "#f6eee9"
+   },
+   {
+    "id": "aas211",
+    "name": "Asian Americans and the Arts",
+    "code": "AAS 211 · B",
+    "days": [
+     "Mon",
+     "Wed"
+    ],
+    "start": "16:00",
+    "end": "17:20",
+    "location": "Davenport Hall · 329",
+    "instructor": "Carrie Geng",
+    "link": "https://canvas.illinois.edu/courses/74613/files/23737915?location=course_syllabus_74613&wrap=1",
+    "first": "2026-08-24",
+    "last": "2026-12-09",
+    "color": "#9a5c72",
+    "tint": "#f7edf1"
+   },
+   {
+    "id": "glbl100",
+    "name": "Intro to Global Studies",
+    "code": "GLBL 100 · B",
+    "days": [
+     "Tue",
+     "Thu"
+    ],
+    "start": "15:00",
+    "end": "16:20",
+    "location": "David Kinley Hall · 310",
+    "instructor": "Charles Fogelman",
+    "link": "https://canvas.illinois.edu/courses/73705/pages/syllabus?module_item_id=5481147",
+    "first": "2026-08-25",
+    "last": "2026-12-09",
+    "color": "#5c6f9d",
+    "tint": "#edf0f8"
+   },
+   {
+    "id": "soc350",
+    "name": "Technology and Society",
+    "code": "SOC 350 · JL",
+    "days": [
+     "Mon",
+     "Wed",
+     "Fri"
+    ],
+    "start": "09:00",
+    "end": "09:50",
+    "location": "Bevier Hall · 108",
+    "instructor": "Jina Lee",
+    "link": "https://canvas.illinois.edu/courses/74772/files/24220018?location=course_syllabus_74772&wrap=1",
+    "first": "2026-08-24",
+    "last": "2026-12-09",
+    "color": "#426c59",
+    "tint": "#eaf2ec"
+   },
+   {
+    "id": "glbl296n",
+    "name": "Geographies of Nuclear States",
+    "code": "GLBL 296 · KG",
+    "days": [
+     "Tue"
+    ],
+    "start": "12:00",
+    "end": "13:50",
+    "location": "Davenport Hall · 137C",
+    "instructor": "Gyudae Kim",
+    "first": "2026-08-25",
+    "last": "2026-10-13",
+    "color": "#78629c",
+    "tint": "#f1eef8"
+   },
+   {
+    "id": "glbl296f",
+    "name": "Feminisms Across Borders",
+    "code": "GLBL 296 · TD",
+    "days": [
+     "Wed"
+    ],
+    "start": "14:00",
+    "end": "15:50",
+    "location": "Gregory Hall · 217",
+    "instructor": "Thais Duarte Zappelini",
+    "first": "2026-10-21",
+    "last": "2026-12-09",
+    "color": "#aa7b2f",
+    "tint": "#f8f2e5"
+   },
+   {
+    "id": "ggis221lec",
+    "name": "Geographies of Global Conflict",
+    "code": "GGIS 221 · AL1",
+    "days": [
+     "Mon",
+     "Wed"
+    ],
+    "start": "11:00",
+    "end": "11:50",
+    "location": "Gregory Hall · 223",
+    "instructor": "Brian Jefferson; Alonso Bueno",
+    "first": "2026-08-24",
+    "last": "2026-12-09",
+    "color": "#387d83",
+    "tint": "#e9f3f3"
+   },
+   {
+    "id": "ggis221dis",
+    "name": "Geographies of Global Conflict",
+    "code": "GGIS 221 · AD3",
+    "days": [
+     "Fri"
+    ],
+    "start": "11:00",
+    "end": "11:50",
+    "location": "Davenport Hall · 137C",
+    "instructor": "Alonso Bueno",
+    "first": "2026-08-28",
+    "last": "2026-12-09",
+    "color": "#387d83",
+    "tint": "#e9f3f3"
+   }
+  ],
+  "assignments": [
+   {
+    "id": "aas-2026-10-23",
+    "title": "Final Project Proposal",
+    "courseId": "aas211",
+    "due": "2026-10-23",
+    "dueTime": "17:00",
+    "status": "To do",
+    "notes": "Due by 5:00 PM, per AAS 211 syllabus."
+   },
+   {
+    "id": "aas-2026-12-11",
+    "title": "Final Curation Project",
+    "courseId": "aas211",
+    "due": "2026-12-11",
+    "dueTime": "17:00",
+    "status": "To do",
+    "notes": "Due by 5:00 PM, per AAS 211 syllabus."
+   },
+   {
+    "id": "soc-midterm-exam",
+    "title": "Midterm Exam",
+    "courseId": "soc350",
+    "due": "2026-11-06",
+    "status": "To do",
+    "notes": "In class on Friday, Nov. 6, per SOC 350 syllabus."
+   },
+   {
+    "id": "soc-final-writing-project-revision-cycle-1",
+    "title": "Final Writing Project - Revision Cycle 1",
+    "courseId": "soc350",
+    "due": "2026-11-13",
+    "status": "To do",
+    "notes": "Week 12 Friday; the weekly schedule lists Revision 1 for Nov. 13."
+   },
+   {
+    "id": "soc-final-writing-project-revision-cycle-2",
+    "title": "Final Writing Project - Revision Cycle 2",
+    "courseId": "soc350",
+    "due": "2026-11-20",
+    "status": "To do",
+    "notes": "Week 13 Friday; the weekly schedule lists Revision 2 for Nov. 20."
+   },
+   {
+    "id": "soc-final-writing-project-revision-cycle-3",
+    "title": "Final Writing Project - Revision Cycle 3",
+    "courseId": "soc350",
+    "due": "",
+    "status": "To do",
+    "notes": "Due by the end of Week 15. The syllabus does not give an exact date."
+   },
+   {
+    "id": "soc-final-essay-process-portfolio",
+    "title": "Final Essay & Process Portfolio",
+    "courseId": "soc350",
+    "due": "",
+    "status": "To do",
+    "notes": "Due at the end of Week 16. The syllabus does not give an exact date."
+   },
+   {
+    "id": "glbl100-final-paper-proposal",
+    "title": "Final Paper Proposal",
+    "courseId": "glbl100",
+    "due": "",
+    "status": "To do",
+    "notes": "Due Week 8 per GLBL 100 syllabus; no exact date or time is listed. Check Canvas for the submission deadline."
+   },
+   {
+    "id": "glbl100-final-paper",
+    "title": "Final Paper",
+    "courseId": "glbl100",
+    "due": "",
+    "status": "To do",
+    "notes": "Due at the end of the semester per GLBL 100 syllabus; no exact date or time is listed."
+   },
+   {
+    "id": "glbl296n-2026-10-06",
+    "title": "Assignment Presentation 3",
+    "courseId": "glbl296n",
+    "due": "2026-10-06",
+    "dueTime": "14:00",
+    "status": "To do",
+    "notes": "Course Summary lists Presentation 3 due by 2:00 PM."
+   },
+   {
+    "id": "glbl296n-2026-10-16",
+    "title": "Final paper",
+    "courseId": "glbl296n",
+    "due": "2026-10-16",
+    "dueTime": "",
+    "status": "To do",
+    "notes": "Due by Friday, Oct. 16 per Course Requirements. No time is specified."
+   }
+  ],
+  "events": [],
+  "reminders": [],
+  "dailyTasks": []
+ }
+}
