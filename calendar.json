@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "Shared calendar",
- "updatedAt": 1791416659964,
+ "updatedAt": 1791426456000,
  "data": {
   "courses": [
    {
@@ -236,7 +236,60 @@
    }
   ],
   "events": [],
-  "reminders": [],
+  "reminders": [
+   {
+    "id": "r1790972973698",
+    "title": "URAP Application Deadline",
+    "category": "Personal",
+    "due": "2026-10-09",
+    "dueTime": "",
+    "location": "",
+    "status": "To do",
+    "notes": "",
+    "link": "https://researchops.web.illinois.edu/",
+    "reminderLead": 1440,
+    "color": "#df7895"
+   },
+   {
+    "id": "r1791001107661",
+    "title": "Meeting with Carissa",
+    "category": "Personal",
+    "due": "2026-10-11",
+    "dueTime": "11:00",
+    "location": "Cafe Bene in Urbana",
+    "status": "To do",
+    "notes": "Come with Questions!",
+    "link": "",
+    "reminderLead": 1440,
+    "color": "#df7895"
+   },
+   {
+    "id": "r1790973071814",
+    "title": "Teach for America Application Due",
+    "category": "Personal",
+    "due": "2026-11-16",
+    "dueTime": "",
+    "location": "",
+    "status": "To do",
+    "notes": "",
+    "link": "https://tfaignite.smapply.io/prog/",
+    "reminderLead": 4320,
+    "color": "#5d4c9a"
+   },
+   {
+    "id": "r1790976181696",
+    "title": "Jelper Club Membership",
+    "category": "Personal",
+    "due": "",
+    "dueTime": "",
+    "location": "",
+    "status": "To do",
+    "notes": "",
+    "link": "",
+    "reminderLead": 0,
+    "color": "#fbe5eb"
+   }
+  ],
   "dailyTasks": []
  }
 }
