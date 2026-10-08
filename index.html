@@ -3906,7 +3906,7 @@ async function syncNow(){const c=ownerCfg();if(!c||MODE!=='own')return;if(syncin
  try{for(let n=0;n<3;n++){
    const rem=await (async()=>{const q=c.branch?'?ref='+encodeURIComponent(c.branch):'';const r=await api(c,cpath(c)+q,{cache:'no-store'});if(r.status===404)return{exists:false};if(r.status===401||r.status===403||!r.ok)throw Object.assign(new Error('GitHub '+r.status),{code:r.status});const j=await r.json();let doc;if(j.content&&j.encoding==='base64')doc=JSON.parse(b64d(j.content));else{const rr=await fetch(j.download_url,{cache:'no-store'});doc=await rr.json()}return{exists:true,sha:j.sha,doc}})();
    const local=extract(data),base=loadBase(),remoteData=rem.exists&&validDoc(rem.doc)?rem.doc.data:null;
-   let merged;if(!remoteData)merged=local;else if(!base&&isEmpty(local))merged=extract(remoteData);else merged=merge3(base,local,extract(remoteData));
+   let merged;if(!remoteData)merged=local;else if(isEmpty(local)&&!isEmpty(remoteData))merged=extract(remoteData);else merged=merge3(base,local,extract(remoteData));
    const title=c.title||'';
    const needPush=!remoteData||st(merged)!==st(extract(remoteData))||(rem.doc&&rem.doc.title!==title&&title);
    if(needPush){const body={message:'Update calendar',content:b64e(JSON.stringify({v:1,title,updatedAt:Date.now(),data:merged},null,1)),...(rem.sha?{sha:rem.sha}:{}),...(c.branch?{branch:c.branch}:{})};
